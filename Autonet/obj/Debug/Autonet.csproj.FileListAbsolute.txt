@@ -1,0 +1,7 @@
+C:\Users\19_32\source\repos\Autonet\Autonet\bin\Debug\Autonet.exe.config
+C:\Users\19_32\source\repos\Autonet\Autonet\bin\Debug\Autonet.exe
+C:\Users\19_32\source\repos\Autonet\Autonet\bin\Debug\Autonet.pdb
+C:\Users\19_32\source\repos\Autonet\Autonet\obj\Debug\Autonet.csproj.CoreCompileInputs.cache
+C:\Users\19_32\source\repos\Autonet\Autonet\obj\Debug\Autonet.exe
+C:\Users\19_32\source\repos\Autonet\Autonet\obj\Debug\Autonet.pdb
+C:\Users\19_32\source\repos\Autonet\Autonet\obj\Debug\Autonet.csprojResolveAssemblyReference.cache
