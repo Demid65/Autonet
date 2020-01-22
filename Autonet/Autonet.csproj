@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Arduino.cs" />
     <Compile Include="CAutonomous.cs" />
+    <Compile Include="CCard.cs" />
     <Compile Include="CRecog.cs" />
     <Compile Include="CRobot.cs" />
     <Compile Include="Demo.cs" />

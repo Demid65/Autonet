@@ -7,9 +7,6 @@ namespace Autonet
 {
     class Program
     {
-        const int OUTPUT = 1;
-        const int INPUT = 0;
-
         static CRobot Robot = new CRobot();
         static CRecog Recog = new CRecog();
         static CAutonomous Autonomous = new Demo();
@@ -17,6 +14,17 @@ namespace Autonet
         static void Main(string[] args)
         {
             Robot.Init("COM30");
+
+            Robot.PinMode(PinDefs.MidLight, Arduino.INPUT);
+            Robot.PinMode(PinDefs.LeftLight, Arduino.INPUT);
+            Robot.PinMode(PinDefs.RightLight, Arduino.INPUT);
+
+            Robot.PinMode(PinDefs.MotorLR, Arduino.OUTPUT);
+            Robot.PinMode(PinDefs.MotorLF, Arduino.OUTPUT);
+            Robot.PinMode(PinDefs.MotorRR, Arduino.OUTPUT);
+            Robot.PinMode(PinDefs.MotorRF, Arduino.OUTPUT);
+            Robot.PinMode(PinDefs.MotorC1, Arduino.OUTPUT);
+            Robot.PinMode(PinDefs.MotorC2, Arduino.OUTPUT);
 
             Autonomous.Run(Robot, Recog);
 
