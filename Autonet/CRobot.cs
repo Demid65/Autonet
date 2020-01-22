@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 
+
 namespace Autonet
 {
     class CRobot : Arduino
     {
-        const int OUTPUT = 1;
-        const int INPUT = 0;
+       
 
         public void Init(String Port) {
 

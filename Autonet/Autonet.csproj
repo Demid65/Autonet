@@ -49,6 +49,7 @@
     <Compile Include="CRecog.cs" />
     <Compile Include="CRobot.cs" />
     <Compile Include="Demo.cs" />
+    <Compile Include="PinDefs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

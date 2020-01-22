@@ -15,6 +15,10 @@ namespace Autonet
 
         }
         */
+
+        public const int OUTPUT = 1;
+        public const int INPUT = 0;
+
         protected SerialPort SPort = new SerialPort();
         
         public void Init(String Port)
