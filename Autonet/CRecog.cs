@@ -9,10 +9,16 @@ using System.Net;
 namespace Autonet
 {
     class CRecog
-    {
-        public string RunRecog(int port)
+    { 
+        private int port;
+
+        public void Init(int Port)
         {
-            // Буфер для входящих данных
+            port = Port;
+        }
+
+        public string ColorRecog()
+        {
             byte[] bytes = new byte[64];
             byte[] ipad = new byte[] { 127, 0, 0, 1 };
 
@@ -29,7 +35,7 @@ namespace Autonet
             // Соединяем сокет с удаленной точкой
             sender.Connect(ipEndPoint);
 
-            byte[] msg = Encoding.UTF8.GetBytes(" ");
+            byte[] msg = Encoding.UTF8.GetBytes("c");
 
             // Отправляем данные через сокет
             int bytesSent = sender.Send(msg);
@@ -44,9 +50,9 @@ namespace Autonet
             return (Encoding.UTF8.GetString(bytes, 0, bytesRec));
         }
 
+
         public string RunRecog()
         {
-           int port = 9090;
             // Буфер для входящих данных
             byte[] bytes = new byte[64];
             byte[] ipad = new byte[] { 127, 0, 0, 1 };

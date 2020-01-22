@@ -14,6 +14,7 @@ namespace Autonet
         static void Main(string[] args)
         {
             Robot.Init("COM30");
+            Recog.Init(9090);
 
             Robot.PinMode(PinDefs.MidLight, Arduino.INPUT);
             Robot.PinMode(PinDefs.LeftLight, Arduino.INPUT);
