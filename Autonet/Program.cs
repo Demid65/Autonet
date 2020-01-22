@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Net.Sockets;
-using System.Net;
-using System.Threading;
-namespace Autonet
+﻿namespace Autonet
 {
     class Program
     {
