@@ -3,8 +3,8 @@
     class PinDefs
     {
         public const int MidLight = 12;
-        public const int LeftLight = 10;
-        public const int RightLight = 11;
+        public const int LeftLight = 3; //<---Analog
+        public const int RightLight = 4; //<---Analog
         public const int MotorLF = 8;
         public const int MotorLR = 7;
         public const int MotorRF = 6;

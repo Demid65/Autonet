@@ -26,13 +26,13 @@ namespace Autonet
         {
             if (power >= 0)
             {
-                DigitalWrite(5, 0);
-                DigitalWrite(6, power);
+                AnalogWrite(7, 0);
+                AnalogWrite(8, power);
             }
             else
             {
-                DigitalWrite(5, power);
-                DigitalWrite(6, 0);
+                AnalogWrite(7, -power);
+                AnalogWrite(8, 0);
             }
         }
 
@@ -40,13 +40,13 @@ namespace Autonet
         {
             if (power >= 0)
             {
-                DigitalWrite(7, 0);
-                DigitalWrite(8, power);
+                AnalogWrite(5, 0);
+                AnalogWrite(6, power);
             }
             else
             {
-                DigitalWrite(7, power);
-                DigitalWrite(8, 0);
+                AnalogWrite(5, -power);
+                AnalogWrite(6, 0);
             }
         }
 
@@ -56,14 +56,27 @@ namespace Autonet
             SetRightPower(R);
         }
 
+        public void SGPnoNeg(int L, int R)
+        {
+            if (L < 0) L = 0;
+            if (R < 0) R = 0;
+
+            if (R > 255) R = 255;
+            if (L > 255) L = 255;
+
+
+            SetLeftPower(L);
+            SetRightPower(R);
+        }
+
         public int GetLeftLS()
         {
-            return DigitalRead(PinDefs.LeftLight);
+            return AnalogRead(PinDefs.LeftLight);
         }
 
         public int GetRightLS()
         {
-            return DigitalRead(PinDefs.RightLight);
+            return AnalogRead(PinDefs.RightLight);
         }
 
         public int GetMidLS()
