@@ -57,5 +57,12 @@ namespace Autonet
             Thread.Sleep(10);
             return int.Parse(SPort.ReadLine());
         }
+
+        public int GetHue()
+        {
+            SPort.WriteLine(String.Format("<GetHue>"));
+            Thread.Sleep(50);
+            return int.Parse(SPort.ReadLine());
+        }
     }
 }
