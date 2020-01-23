@@ -69,20 +69,7 @@ namespace Autonet
             SetRightPower(R);
         }
 
-        public int GetLeftLS()
-        {
-            return AnalogRead(PinDefs.LeftLight);
-        }
-
-        public int GetRightLS()
-        {
-            return AnalogRead(PinDefs.RightLight);
-        }
-
-        public int GetMidLS()
-        {
-            return DigitalRead(PinDefs.MidLight);
-        }
+        
 
         public int GetODS()
         {

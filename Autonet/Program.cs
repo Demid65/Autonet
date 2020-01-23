@@ -11,10 +11,10 @@
             Robot.Init("COM30");
             Recog.Init(9090);
 
-            Robot.PinMode(PinDefs.MidLight, Arduino.INPUT);
+            /*Robot.PinMode(PinDefs.MidLight, Arduino.INPUT);
             Robot.PinMode(PinDefs.LeftLight, Arduino.INPUT);
             Robot.PinMode(PinDefs.RightLight, Arduino.INPUT);
-
+            */
             Robot.PinMode(PinDefs.MotorLR, Arduino.OUTPUT);
             Robot.PinMode(PinDefs.MotorLF, Arduino.OUTPUT);
             Robot.PinMode(PinDefs.MotorRR, Arduino.OUTPUT);
