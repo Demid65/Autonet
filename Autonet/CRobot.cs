@@ -69,12 +69,5 @@ namespace Autonet
             SetRightPower(R);
         }
 
-        
-
-        public int GetODS()
-        {
-            return AnalogRead(PinDefs.ODS);
-        }
-
     }
 }

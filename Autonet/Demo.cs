@@ -21,7 +21,7 @@ namespace Autonet
             Robot.SetGeneralPower(60,150);
             Thread.Sleep(3500);
             Robot.SetGeneralPower(60, 20);
-
+            int cid = -1;
             //while (Robot.AnalogRead(PinDefs.RightLightB)<400) ;
             while (true)
             {
@@ -38,8 +38,9 @@ namespace Autonet
                // Console.WriteLine("" + Robot.AnalogRead(PinDefs.RightLightB) + "B");
                // Console.WriteLine("" + Robot.AnalogRead(PinDefs.RightLightW) + "W");
                 Console.WriteLine("Target:"+recData);
-                
-                    int cid = int.Parse(Recog.ColorRecog());
+                int tcid = cid;
+                    cid = int.Parse(Recog.ColorRecog());
+                if (cid == tcid)
                     switch (cid)
                     {
                         case 0:
@@ -66,7 +67,8 @@ namespace Autonet
 
             }
 
-            Robot.SetGeneralPower(50, 50);
+            Robot.SetGeneralPower(60, 50);
+            Thread.Sleep(1000);
             while (Robot.AnalogRead(PinDefs.RightLightW) > 400) ;
             Robot.SetGeneralPower(0, 0);
 

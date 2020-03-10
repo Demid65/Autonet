@@ -60,7 +60,13 @@ namespace Autonet
         public int GetHue()
         {
             SPort.WriteLine(String.Format("<GetHue>"));
-            Thread.Sleep(50);
+            Thread.Sleep(30);
+            return int.Parse(SPort.ReadLine());
+        }
+
+        public int GetSonic()
+        {
+            SPort.WriteLine(String.Format("<GetSonic>"));
             return int.Parse(SPort.ReadLine());
         }
     }
