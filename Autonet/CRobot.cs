@@ -16,10 +16,10 @@ namespace Autonet
             Thread.Sleep(100);
             
             PinMode(22, INPUT);
-            PinMode(5, OUTPUT);     //LR 
-            PinMode(6, OUTPUT);     //LF
-            PinMode(7, OUTPUT);     //RR
-            PinMode(8, OUTPUT);     //RF
+            PinMode(PinDefs.MotorLR, OUTPUT);     //LR 
+            PinMode(PinDefs.MotorLF, OUTPUT);     //LF
+            PinMode(PinDefs.MotorRR, OUTPUT);     //RR
+            PinMode(PinDefs.MotorRF, OUTPUT);     //RF
         }
 
         public void SetLeftPower(int power)

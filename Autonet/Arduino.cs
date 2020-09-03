@@ -57,6 +57,11 @@ namespace Autonet
             return int.Parse(SPort.ReadLine());
         }
 
+        public void SetServo(int Servo, int Angle)
+        {
+            SPort.WriteLine(String.Format("({0})[{1}]<SetServo>", Angle.ToString(), Servo.ToString()));
+        }
+
         public int GetHue()
         {
             SPort.WriteLine(String.Format("<GetHue>"));

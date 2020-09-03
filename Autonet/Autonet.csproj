@@ -51,6 +51,7 @@
     <Compile Include="CRobot.cs" />
     <Compile Include="Demo.cs" />
     <Compile Include="PinDefs.cs" />
+    <Compile Include="Point1.cs" />
     <Compile Include="Point2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
