@@ -4,17 +4,17 @@ using System.Threading;
 
 namespace Autonet
 {
-    class Arduino
-    {/*
-        public Arduino(String Port)
+    class CArduino
+    {
+       /* public Arduino(String Port)
         {
             SPort.PortName = Port;
             SPort.BaudRate = 9600;
             SPort.Open();
             Thread.Sleep(100);
 
-        }
-        */
+        }*/
+        
 
         public const int OUTPUT = 1;
         public const int INPUT = 0;

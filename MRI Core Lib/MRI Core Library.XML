@@ -1,0 +1,1839 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MRI Core Library</name>
+    </assembly>
+    <members>
+        <member name="T:MRI_Core_Library.CoreLegacyModule">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-legacy-module-3" target="_blank">Modern Robotics Part Number 45-2202 - Core Legacy Module</a>  <br></br>
+            An instance of this class is needed before any Legacy Devices can be initialized.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Legacy Module - Analog\Program.cs"  language="C#" title="Analog"/>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Legacy Module - Ultrasonic\Program.cs"  language="C#" title="Ultrasonic"/>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Legacy Module - Matrix\Program.cs"  language="C#" title="Matrix Controller"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.#ctor(System.String)">
+            <summary>
+            Initialize this class using a COM port (ex "COM9") or serial number (ex "AI9UJGW4") <br></br>
+            If you do not know the COM port, use Core_Control_Module.printConnectedDevices() or <a href="http://modernroboticsinc.com/coredevicediscovery" target="_blank">Core Device Discovery</a>. <br></br>
+            This function will open communication to the module. <br></br>
+            </summary>
+            <param name="serialPort"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.#ctor">
+            <summary>
+            Initialize the first available Legacy Module the computer can find. If being used with ofther constructors that specify a COM Port or Serial Number, use those first.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.setLEDs(System.Byte)">
+            <summary>
+            Sets the state for four LEDs on the left side of the legacy module. From bottom to top, the LEDs are controlled by bits 0-1-3-2.
+            </summary>
+            <param name="LEDset">Byte for the LED set.</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.setControlPins(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Control Pins supply voltage to analog sensors like the LEGO light sensor. <br></br>
+            This function turns off I2C Mode and turns off 9V mode.
+            </summary>
+            <param name="port">Port on the Legacy Module</param>
+            <param name="D0">First control line on</param>
+            <param name="D1">Second control line on</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.readAnalog(System.Int32)">
+            <summary>
+            Reads the analog value of a port
+            </summary>
+            <param name="port">Port on the legacy module</param>
+            <returns>10-bit value as an integer</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.readI2C(System.Int32,System.Byte,System.Byte,System.Byte,System.Boolean)">
+            <summary>
+            Reads an I2C sensor. The I2C address of the sensor must be known. The requested data starts at index 4 of the returned array.
+            </summary>
+            <param name="port">Port on the Legacy Module</param>
+            <param name="addr">Address of the sensor</param>
+            <param name="reg">Register on the sensor to start reading from</param>
+            <param name="length">Number of bytes to read</param>
+            <param name="volt9">Supply 9Volts to sensor. Only applicale on ports 4 and 5. For use with Ultrasonic.</param>
+            <returns>Byte[] {mode, I2C addr, register on the sensor the payload came from, length of data, 27 bytes of data, flag (should be 0x00)</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.readI2C(System.Int32,System.Byte,System.Byte)">
+            <summary>
+            Reads one byte from an I2C sensor
+            </summary>
+            <param name="port">Port of the Legacy Module</param>
+            <param name="addr">Address of the I2C sensor</param>
+            <param name="reg">Register of the senaor to read</param>
+            <returns>Returns the requested byte</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreLegacyModule.writeI2C(System.Int32,System.Byte,System.Byte,System.Byte[],System.Boolean)">
+            <summary>
+            Writes a string of bytes to a I2C device connected to the Legacy Module
+            </summary>
+            <param name="port">Port of the Legacy Module</param>
+            <param name="addr">I2C address of the device</param>
+            <param name="reg">Register of which to start the write</param>
+            <param name="data">Byte array to write starting at reg</param>
+            <param name="volt9">True of this device requires 9V instead of 5</param>
+        </member>
+        <member name="T:MRI_Core_Library.CoreDeviceInterface">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-device-interface-module-2" target="_blank">Modern Robotics Part Number 45-2201 - Core Device Interface</a>  <br></br>
+            An instance of this class is needed before any sensors can be initialized.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.#ctor(System.String)">
+            <summary>
+            Initialize this class using a COM port or Serial Number. ex "COM9" or "AI02RHRK". <br></br>
+            If you do not know the COM port, use Core_Control_Module.printConnectedDevices() or <a href="http://modernroboticsinc.com/coredevicediscovery" target="_blank">Core Device Discovery</a>. <br></br>
+            This function will open communication to the module.
+            </summary>
+            <param name="serialPort">For example "COM19"</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.#ctor">
+            <summary>
+            Initialize the first available Core Device Interface the computer can find. If being used with ofther constructors that specify a COM Port or Serial Number, use those first.
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.CoreDeviceInterface.LEDstate">
+            <summary>
+            LEDs combinations on Core Device Interface assigned to their value
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.LEDstate.OFF">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.LEDstate.BLUE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.LEDstate.RED">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.LEDstate.REDandBLUE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setLEDs(MRI_Core_Library.CoreDeviceInterface.LEDstate)">
+            <summary>
+             This function controlls the red and blue LEDs on the top of the Core Device Interface.<br></br>
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.getLEDs">
+            <summary>
+            Returns the current state of the RED and BLUE LEDs
+            </summary>
+            <returns>LED State</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.readAnalog(System.Byte)">
+            <summary>
+            Returns a number between 0 and 1023 representing no voltage to full voltage. Ports are 0-7.
+            </summary>
+            <param name="port"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.readAllAnalog">
+            <summary>
+            Returns an int[8] with 8 analog readings from 0 to 1023. Index corresponds to port number. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.readDigital8">
+            <summary>
+            Returns a byte carrying the state of all digital ports. The desired digital ports must be in input mode (default).<br></br>
+            Each bit of the byte is the state of the input. bit0 = 1 means D0 is high. bit6=0 means D6 is low.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.readDigital(System.Byte)">
+            <summary>
+            Returns true if the digital port is high.
+            </summary>
+            <param name="port">0 - 7</param>
+            <returns>True is port is high</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setDIOcontrol(System.Byte)">
+            <summary>
+            This byte sets all digital ports to either input or output. Each bit corresponds to a digital port. 0 is input. 1 is output. <br></br>
+            0b11110000 will set D0-D3 to input and D4-D7 to output. <br></br>
+            This method does not turn on any digital ports. After using this method, see setDigitalOut() to turn ports on. <br></br>
+            </summary>
+            <param name="control">Byte representing all ports.</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.getDIOcontrol">
+            <summary>
+            See setDIOcontrol()
+            </summary>
+            <returns>Returns current input/output state of Digital ports</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setDigitalOut(System.Byte)">
+            <summary>
+            After setting port(s) to output mode using setDIOcontrol(), output ports can be turned on using this method. <br></br>
+            Each bit in the byte corresponds to a digital port. 1 is on and 0 is off.
+            </summary>
+            <param name="dOut">Byte for digital out control</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.getDOut">
+            <summary>
+            See setDigitalOut()
+            </summary>
+            <returns>Current output</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.writeI2C(System.Byte,System.Byte,System.Byte[],System.Byte)">
+            <summary>
+            Writes a byte array to an I2C sensor. Max 27. The port in which the sensor is connected does not matter.
+            </summary>
+            <param name="addr">Address of the sensor to talk to. Use list_I2C_devices() to find I2C addresses of connected sensors.</param>
+            <param name="register">Location in sensor to start writing data.</param>
+            <param name="data">Byte array to write to sensor.</param>
+            <param name="bufferNumber">Buffer of Core Device Interface to use. Accepts 0-5.</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.readI2C(System.Byte,System.Byte,System.Int32,System.Byte)">
+            <summary>
+            Reads an array of bytes from I2C Sensor. Max 27. The port in which the sensor is connected does not matter. <br></br>
+            This method requests data from the sensor, then continually reads from the Core Device Interface until the Core Device Interface sets the flag to done.<br></br>
+            Note that the requested data does not start at index 0. Your requested data will start at index 4.
+            </summary>
+            <param name="addr">Address of the I2C Sensor</param>
+            <param name="register">Location in the sensor to begin reading</param>
+            <param name="length">Number of bytes to read</param>
+            <param name="bufferNumber">Buffer of Core Device Interface to use. Accepts 0-5.</param>
+            <returns>Returns a byte array containing {Read/Write (0x80/0x00), I2CAddress, Sensor Start Register, Length of data, 27 bytes of data, Flag (0x00 represents good data)}</returns>
+        </member>
+        <member name="T:MRI_Core_Library.CoreDeviceInterface.analogOutMode">
+            <summary>
+            List of Analog Out modes corresponding to their values
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.analogOutMode.Voltage">
+            <summary>
+            Constant Voltage
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.analogOutMode.Sine">
+            <summary>
+            Sine Wave Output
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.analogOutMode.Square">
+            <summary>
+            Square Wave Output
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.analogOutMode.Triange">
+            <summary>
+            Triangle Wave Output
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setAnalogOut(System.Int32,System.Int32,System.Int32,MRI_Core_Library.CoreDeviceInterface.analogOutMode)">
+            <summary>
+            Controls an analog out Port. This method is all inclusive. <br></br>
+            If mode is set to Voltage, Frequency is also set to 0.
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="voltage">Voltage -1023 to 1023 representing -4 to 4 volts</param>
+            <param name="frequency">Frequency 1 to 5000</param>
+            <param name="mode">Core_Device_Interface.analogOutMode.voltage OR Core_Device_Interface.analogOutMode.sine_wave OR Core_Device_Interface.analogOutMode.square_wave OR Core_Device_Interface.analogOutMode.triangle_wave</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setAnalogOutVoltage(System.Int32,System.Int32)">
+            <summary>
+            Sets voltage only of Analog Out Port.
+            See setAnalogOut()
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="voltage">Voltage -1023 to 1023 representing -4 to 4 volts</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setAnalogOutFrequency(System.Int32,System.Int32)">
+            <summary>
+            Sets frequency only of Analog Out Port. <br></br>
+            If mode is set to Voltage, Frequency is also set to 0. <br></br>
+            See setAnalogOut()
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="frequency">Frequency 1 to 5000</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setAnalogOutMode(System.Int32,MRI_Core_Library.CoreDeviceInterface.analogOutMode)">
+            <summary>
+            Sets mode only of Analog Out Port. <br></br>
+            If mode is set to Voltage, Frequency is also set to 0.
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="mode">Core_Device_Interface.analogOutMode.voltage OR Core_Device_Interface.analogOutMode.sine_wave OR Core_Device_Interface.analogOutMode.square_wave OR Core_Device_Interface.analogOutMode.triangle_wave</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.getAnalogOutMode(System.Int32)">
+            <summary>
+            Gets Analog Output Mode
+            </summary>
+            <param name="port">Port 0-1</param>
+            <returns>Core_Device_Interface.analogOutMode.voltage OR Core_Device_Interface.analogOutMode.sine_wave OR Core_Device_Interface.analogOutMode.square_wave OR Core_Device_Interface.analogOutMode.triangle_wave</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setPWM(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets PWM settings for one PWM port. This function is all inclusive for the PWM port. Both values are unsigned words (16 bit)
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="onTime">On time in units of micro seconds</param>
+            <param name="period">Period in units of micro seconds</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setPWMonTime(System.Int32,System.Int32)">
+            <summary>
+            Sets on time for one PWM port.
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="onTime">On time in units of micro seconds. 16 bit</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.setPWMperiod(System.Int32,System.Int32)">
+            <summary>
+            Sets period for one PWM port
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="period">Period in units of micro seconds. 16 bit</param>
+        </member>
+        <member name="T:MRI_Core_Library.CoreDeviceInterface.sensorType">
+            <summary>
+            Types of I2C Sensors and their IDs
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.unknown">
+            <summary>
+            Default
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Compass_And_Acceleration_Sensor">
+            <summary>
+            45-2003
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Integrating_Gyro">
+            <summary>
+            45-2005
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.IR_Locator_360">
+            <summary>
+            45-2009
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.IR_Seeker_V3">
+            <summary>
+            45-2017
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Color_Beacon">
+            <summary>
+            45-2019
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Range_Sensor">
+            <summary>
+            45-2008
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Color_Sensor">
+            <summary>
+            45-2018
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreDeviceInterface.sensorType.Sound_Generator">
+            <summary>
+            45-2016
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.getSensorType(System.Byte)">
+            <summary>
+            Returns the type of I2C Sensor at a particular I2C Address
+            </summary>
+            <param name="addr">I2C Address of Connected Sensor</param>
+            <returns>sensorType enum</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.printI2CDevices">
+            <summary>
+            Writes I2C devices to the Console with their I2C Address and verisons in hex.<br></br>
+            This function utilizes findI2CDevices()
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreDeviceInterface.findI2CDevices">
+            <summary>
+            Reads registers 0-3 for all possible I2C addresses. If register 0x00 does not equal 0xFF, these three registers are loged in the array.<br></br>
+            In MR sensors, these registers represent Version, Manufacturer, and ID
+            </summary>
+            <returns>I2C Address [i, 0], Version[i, 1], Manufacturer[i, 2], ID[i, 3]</returns>
+        </member>
+        <member name="T:MRI_Core_Library.AnalogIn">
+            <summary>
+            Class for an analog device. Core_Device_Interface instance must be created before instatiating this class.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.AnalogIn.module">
+            <summary>
+            Module to which the device is connected to
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogIn.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initiate the device by specifying a port and module the device is connected to.
+            </summary>
+            <param name="port">Port 0-7</param>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogIn.read">
+            <summary>
+            Value of analog sensor
+            </summary>
+            <returns>0-1023 representing 0 volts to maximum voltage</returns>
+        </member>
+        <member name="T:MRI_Core_Library.DigitalIO">
+            <summary>
+            Class for a digital device like a switch. Core_Device_Interface instance must be created before instatiating this class.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.DigitalIO.module">
+            <summary>
+            Module to which the device is connected to
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initiate the device by specifying a port and module the device is connected to.
+            </summary>
+            <param name="port">Port 0-7</param>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.read">
+            <summary>
+            Reading of this digital device
+            </summary>
+            <returns>True for high. False for low</returns>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.input">
+            <summary>
+            Sets port to input. By default all digital ports are input.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.output">
+            <summary>
+            Sets port to output. By default all digital ports are input.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.isOutput">
+            <summary>
+            Checks if port is in output mode
+            </summary>
+            <returns>True is port is in output mode. False if in input mode.</returns>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.off">
+            <summary>
+            If the port is in output mode, this function will turn the port off.
+            By default, the port is off.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.on">
+            <summary>
+            If the port is in output mode, this function will turn the port on.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.DigitalIO.isOn">
+            <summary>
+            Checks to see if the port is on.
+            This method may return true even if the port is set to input mode.
+            </summary>
+            <returns>True is the port is on.</returns>
+        </member>
+        <member name="T:MRI_Core_Library.I2CDevice">
+            <summary>
+            A general I2CDevice. Core_Device_Interface instance must be created before instatiating this class.<br></br>
+            Modern Robotics Sensor have or will recieve their own class with specialized methods. <br></br>
+            All other I2C Sensor classes like the Modern Robotics Color Sensor will inherit this class.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex List I2C Devices\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="F:MRI_Core_Library.I2CDevice.module">
+            <summary>
+            Module to which the device is connected to
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initialize the I2CDevice instance using the I2C address and the module the sensor is connected to. The port at which the sensor is connected does not matter.
+            </summary>
+            <param name="I2CAddr"></param>
+            <param name="module"></param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.getSensorType">
+            <summary>
+            Returns the name of the sensor at this address.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.getI2CAddr">
+            <summary>
+            Returns the I2C address of this instance.
+            </summary>
+            <returns>I2C Address as Byte</returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.setI2CAddr(System.Byte)">
+            <summary>
+            The I2C address of an I2C device is set during initialization although it can be changed here.
+            </summary>
+            <param name="I2CAddr">Byte of I2C Address</param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.read(System.Byte,System.Int32)">
+            <summary>
+            Reads an array of registers from the instanciated I2CDevice. This function only returns the data as opposed to the readI2C function in the Core_Device_Interface_Class. A parameter length of 5 will return a byte[] of length 5.
+            </summary>
+            <param name="register">Register to start reading from</param>
+            <param name="length">Number of consecuitive bytes to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.read(System.Byte)">
+            <summary>
+            Reads only one byte.
+            </summary>
+            <param name="register">Register to read</param>
+            <returns>Register value</returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.readLsbMsb(System.Byte)">
+            <summary>
+            Reads two bytes and combines then as lbs/msb to create one signed int.<br></br>
+            -32,768 to 32,767
+            </summary>
+            <param name="firstRegister"></param>
+            <returns>signed int of combined bytes</returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.writeLsbMsb(System.Byte,System.Int32)">
+            <summary>
+            Writes an integer as an LSB and MSB
+            </summary>
+            <param name="firstRegister">LSB Register</param>
+            <param name="data">integer to write</param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.readFsbMsb(System.Byte)">
+            <summary>
+            Reads a decimal number where the first byte is the decemals and the second byte is the whole numbers.<br></br>
+            For example, 0b 0000 0001 1000 0000 would return 1.5.
+            </summary>
+            <param name="firstRegister"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.writeFsbMsb(System.Byte,System.Double)">
+            <summary>
+            Writes a decimal number with decimals in the first byte and the whole numbers in the second byte.
+            </summary>
+            <param name="firstRegister"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.write(System.Byte,System.Byte[])">
+            <summary>
+            Writes a byte array to an I2C Sensor starting at the specified register. The byte array shouldbe the exact size of the data you want to write. Index 0 will go in the register specified. Index 1 will go into the following register and so on.
+            </summary>
+            <param name="register">Register to start writing to</param>
+            <param name="data">Byte[] to write to sensor</param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.write(System.Byte,System.Byte)">
+            <summary>
+            Write one byte to the sensor at the specified register.
+            </summary>
+            <param name="register">Register to write to</param>
+            <param name="value">Value to write</param>
+        </member>
+        <member name="M:MRI_Core_Library.I2CDevice.firmwareRevision">
+            <summary>
+            Get the version number of the sensor.
+            </summary>
+            <returns>Version followed by a decimal and the revision.</returns>
+        </member>
+        <member name="T:MRI_Core_Library.AnalogOut">
+            <summary>
+            Class for an analog out device. Core_Device_Interface instance must be created before instatiating this class.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.AnalogOut.module">
+            <summary>
+            Module this device is connected to.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.#ctor(System.Int32,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes an Analog Out device
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="module">Instance of Core_Device_Interface this is connected to</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.off">
+            <summary>
+            Turn off
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.set(System.Int32,System.Int32,MRI_Core_Library.CoreDeviceInterface.analogOutMode)">
+            <summary>
+            Set all parameters for this port
+            If mode is set to Voltage, Frequency is also set to 0.
+            </summary>
+            <param name="voltage">Voltage -1023 to 1023 representing -4 to 4 volts</param>
+            <param name="frequency">Frequency 1 to 5000</param>
+            <param name="mode">Core_Device_Interface.analogOutMode.voltage OR Core_Device_Interface.analogOutMode.sine_wave OR Core_Device_Interface.analogOutMode.square_wave OR Core_Device_Interface.analogOutMode.triangle_wave</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.setVoltage(System.Int32)">
+            <summary>
+            Set voltage for this port
+            </summary>
+            <param name="voltage">Voltage -1023 to 1023 representing -4 to 4 volts</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.setFrequency(System.Int32)">
+            <summary>
+            Set frequency for this port
+            If mode is set to Voltage, Frequency is also set to 0.
+            </summary>
+            <param name="frequency">Frequency 1 to 5000</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.setMode(MRI_Core_Library.CoreDeviceInterface.analogOutMode)">
+            <summary>
+            Set mode for this port
+            If mode is set to Voltage, Frequency is also set to 0.
+            </summary>
+            <param name="mode">Core_Device_Interface.analogOutMode.voltage OR Core_Device_Interface.analogOutMode.sine_wave OR Core_Device_Interface.analogOutMode.square_wave OR Core_Device_Interface.analogOutMode.triangle_wave</param>
+        </member>
+        <member name="M:MRI_Core_Library.AnalogOut.getMode">
+            <summary>
+            Mode of this AnalogOut device
+            </summary>
+            <returns>Core_Device_Interface.analogOutMode</returns>
+        </member>
+        <member name="T:MRI_Core_Library.PWMOut">
+            <summary>
+            A PWM port on the Core Device Interface<br></br>
+            Note that the PWM ports do not have enough current to power a standard size servo. Current limit of 22mA
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.PWMOut.module">
+            <summary>
+            Mode the PWM device is connected to
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.#ctor(System.Int32,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initialize the PWM device. An instance of Core_Device_Interface must be created first.
+            </summary>
+            <param name="port">Port 0-1</param>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.set(System.Int32,System.Int32)">
+            <summary>
+            Sets PWM settings for this PWM port. This function is all inclusive for the PWM port. Both values are unsigned words (16 bit)
+            </summary>
+            <param name="onTime">On Time in units of micro seconds</param>
+            <param name="period">Period in units of micro seconds</param>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.setOnTime(System.Int32)">
+            <summary>
+            Sets on time for this port.
+            </summary>
+            <param name="onTime">On time in units of micro seconds. 16 bit</param>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.setPeriod(System.Int32)">
+            <summary>
+            Sets period for this port.
+            </summary>
+            <param name="period">Period in units of micro seconds. 16 bit</param>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.setServo(System.Int32)">
+            <summary>
+            Recommended function for using a small servo on a PWM port. This function sets the period to the reccomended value of 20,000. 750 is added to position before sending the position to the on time.<br></br>
+            Note that the PWM ports do not have enough current to power a standard size servo. Current limit of 22mA
+            </summary>
+            <param name="position">Position from 0 to 1500</param>
+        </member>
+        <member name="M:MRI_Core_Library.PWMOut.disable">
+            <summary>
+            Turns the port off.<br></br>
+            This function simply calls set(0, 0)
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.CoreMotorController">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-motor-controller-3" target="_blank">Modern Robotics Part Number 45-2203 - Core Motor Controller</a>  <br></br>
+            An instance of this class is needed before any motors can be initialized.
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.CoreMotorController.mode">
+            <summary>
+            Modes of the motor channels
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreMotorController.mode.Constant_Power">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-motor-controller-3" target="_blank">Reference Product Page</a>
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreMotorController.mode.Constant_Speed">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-motor-controller-3" target="_blank">Reference Product Page</a>
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreMotorController.mode.Run_To_Position">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-motor-controller-3" target="_blank">Reference Product Page</a>
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreMotorController.mode.Stop_And_Reset_Encoder">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-motor-controller-3" target="_blank">Reference Product Page</a>
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.#ctor(System.String)">
+            <summary>
+            Initialize this class using a COM port (ex "COM9") or serial number (ex "AI9UJGW4")<br></br>
+            If you do not know the COM port, use Core_Control_Module.printConnectedDevices() or <a href="http://modernroboticsinc.com/coredevicediscovery" target="_blank">Core Device Discovery</a>. <br></br>
+            This function will open communication to the module and start the watchdog.
+            </summary>
+            <param name="serialPort">ex. "COM9"</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.#ctor">
+            <summary>
+            Initialize the first available Motor Controller the computer can find. If being used with ofther constructors that specify a COM Port or Serial Number, use those first.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.startWatchDog">
+            <summary>
+            The motor controller will stop both motors if it does not recieve any communication for 2.5 seconds.<br></br>
+            This method starts a thread which will ping the motor controller every second if no communication has not been sent for one second.<br></br>
+            This method is called when the Motor Controller is initialized
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.stopWatchDog">
+            <summary>
+            See startWatchDog()<br></br>
+            This method stops the watchdog so the controller will stop 2.5 seconds after the last communication was sent.<br></br>
+            At least call this method at the end of your program.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.setTargetPosition(System.Int32,System.Int64)">
+            <summary>
+            Set the Target Postion for a motor. This value is used only in Run To Position mode.
+            </summary>
+            <param name="channel">Motor Channel 1-2</param>
+            <param name="target">Target encoder position signed 32 bit value</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.setMode(System.Int32,MRI_Core_Library.CoreMotorController.mode)">
+            <summary>
+            Set the mode of a motor channel.<br></br>
+            See product page or modernroboticsedu.com for more information<br></br>
+            If Core_Motor_Controller.mode.Stop_And_Reset_Encoder is used, the motor controller will reset to Core_Motor_Controller.mode.Constant_Power after completion <br></br>
+            </summary>
+            <param name="channel">Channel 1-2</param>
+            <param name="mode">Core_Motor_Controller.mode.Constant_Power | Core_Motor_Controller.mode.Constant_Speed | Core_Motor_Controller.mode.Run_To_Position | Core_Motor_Controller.mode.Stop_And_Reset_Encoder</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.setPower(System.Int32,System.Int32)">
+            <summary>
+            Set the power of the motor. This is used in all three runnning modes of the motor.<br></br>
+            100 should be clockwise. -100 counterclockwise. 0 is stop.
+            </summary>
+            <param name="channel">Channel 1-2</param>
+            <param name="power">Power -100 to 100</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.getPosition(System.Int32)">
+            <summary>
+            Current encoder position of a motor.<br></br>
+            Encoder posiiton only resets if the motor controller is powered off or if the mode Core_Motor_Controller.mode.Stop_And_Reset_Encoder is set.<br></br>
+            Encoder value should increase as motor turns clockwise.
+            </summary>
+            <param name="channel">Channel 1-2</param>
+            <returns>Signed 32 bit encoder position</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.getTargetPosition(System.Int32)">
+            <summary>
+            See setTargetPosition()
+            </summary>
+            <param name="channel"></param>
+            <returns>Signed 32 bit target position</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.getBatteryVoltage">
+            <summary>
+            Returns voltage of power input.
+            </summary>
+            <returns>Voltage</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.getPower(System.Int32)">
+            <summary>
+            Gets a motor power from controller
+            </summary>
+            <param name="channel"></param>
+            <returns>-100 to 100</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.getMode(System.Int32)">
+            <summary>
+            Get the current mode of a channel
+            </summary>
+            <param name="channel"></param>
+            <returns>Core_Motor_Controller.mode</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreMotorController.distanceToTarget(System.Int32)">
+            <summary>
+            Gets the target and position from the controller and returns the distance left to travel
+            </summary>
+            <param name="channel"></param>
+            <returns>target - position</returns>
+        </member>
+        <member name="T:MRI_Core_Library.Motor">
+            <summary>
+            A motor connected to a Core Motor Controller. An instance of Core_Motor_Controller must be created first.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Motor\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="F:MRI_Core_Library.Motor.module">
+            <summary>
+            Core_Motor_Controller this motor is connected to
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.#ctor(System.Int32,MRI_Core_Library.CoreMotorController)">
+            <summary>
+            Initialize a motor. An instance of Core_Motor_Controller must be created first
+            </summary>
+            <param name="channel">Channel 1-2</param>
+            <param name="module">Instance of Core_Motor_Controller</param>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.setTargetPosition(System.Int64)">
+            <summary>
+            Set the Target Postion for this motor. This value is used only in Run To Position mode.
+            </summary>
+            <param name="target">Target encoder position signed 32 bit value</param>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.setMode(MRI_Core_Library.CoreMotorController.mode)">
+            <summary>
+            Set the mode of this motor<br></br>
+            See product page or modernroboticsedu.com for more information<br></br>
+            If Core_Motor_Controller.mode.Stop_And_Reset_Encoder is used, the motor controller will reset to Core_Motor_Controller.mode.Constant_Power after completion 
+            </summary>
+            <param name="mode">Core_Motor_Controller.mode.Constant_Power | Core_Motor_Controller.mode.Constant_Speed | Core_Motor_Controller.mode.Run_To_Position | Core_Motor_Controller.mode.Stop_And_Reset_Encoder</param>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.setPower(System.Int32)">
+            <summary>
+            Set the power of this motor. This is used in all three runnning modes of the motor.<br></br>
+            100 should be clockwise. -100 counterclockwise. 0 is stop.
+            </summary>
+            <param name="power">Power -100 to 100</param>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.getPosition">
+            <summary>
+            Current encoder position of this motor.<br></br>
+            Encoder posiiton only resets if the motor controller is powered off or if the mode Core_Motor_Controller.mode.Stop_And_Reset_Encoder is set.<br></br>
+            Encoder value should increase as motor turns clockwise.
+            </summary>
+            <returns>Signed 32 bit encoder position</returns>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.getTargetPosition">
+            <summary>
+            See setTargetPosition()
+            </summary>
+            <returns>Signed 32 bit target position</returns>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.getPower">
+            <summary>
+            Gets the motor power from controller
+            </summary>
+            <returns>-100 to 100</returns>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.distanceToTarget">
+            <summary>
+            Gets the target and position from the controller and returns the distance left to travel
+            </summary>
+            <returns>target - position</returns>
+        </member>
+        <member name="M:MRI_Core_Library.Motor.getMode">
+            <summary>
+            Get the current mode of a channel
+            </summary>
+            <returns>Core_Motor_Controller.mode</returns>
+        </member>
+        <member name="T:MRI_Core_Library.CoreServoController">
+            <summary>
+            <a href="http://modernroboticsinc.com/core-servo-controller-3" target="_blank">Modern Robotics Part Number 45-2204 - Core Servo Controller</a>  <br></br>
+            An instance of this class is needed before any servos can be initialized.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.#ctor(System.String)">
+            <summary>
+            Initialize this class using a COM port (ex "COM9") or serial number (ex "AI9UJGW4") <br></br>
+            If you do not know the COM port, use Core_Control_Module.printConnectedDevices() or <a href="http://modernroboticsinc.com/coredevicediscovery" target="_blank">Core Device Discovery</a>. <br></br>
+            This function will open communication to the module. <br></br>
+            This function does not enable the servos. See enable()
+            </summary>
+            <param name="serialPort"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.#ctor">
+            <summary>
+            Initialize the first available Servo Controller the computer can find. If being used with ofther constructors that specify a COM Port or Serial Number, use those first.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.setPositions(System.Byte[])">
+            <summary>
+            Set up to 6 servo positions most efficiently.<br></br>
+            This function starts by setting the position for channel 1 and continues for the length of the byte[]<br></br>
+            Servo positions are 0-255 or 0x00-0xFF<br></br>
+            This function does not enable the servos. See enable()
+            </summary>
+            <param name="positions">byte[6] {servo position1, servo position 2, ...}</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.getPositions">
+            <summary>
+            See setPositions()<br></br>
+            Returns the positions set by the user. <br></br>
+            There is no feedback form the servos to the controller. These values only represent the desired positions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.setPosition(System.Int32,System.Byte)">
+            <summary>
+            Set a single position from 0-255<br></br>
+            This function does not enable the servos. See enable()
+            </summary>
+            <param name="channel">Channel 1-6</param>
+            <param name="position">Posiiton 0-255</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.getPosition(System.Int32)">
+            <summary>
+            See getPositions()<br></br>
+            Returns a desired position of one servo. This is not the physical position the servo is at as there is no feedback from the servo.
+            </summary>
+            <param name="channel">Channel 1-6</param>
+            <returns>byte position 0-255</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.enable">
+            <summary>
+            Enables all servo channels.<br></br>
+            If no communication is sent to controller for 10 seconds, all channels will be disabled.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.disable">
+            <summary>
+            Disables all servo channels.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.enableWithoutTimeout">
+            <summary>
+            Enables all servo channels with disregard to the 10 second timeout
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreServoController.isDisabled">
+            <summary>
+            Check if servo channels are disabled
+            </summary>
+            <returns>True is channels are disabled</returns>
+        </member>
+        <member name="T:MRI_Core_Library.Servo">
+            <summary>
+            A servo connected to a Core Servo Controller. An instance of Core_Servo_Controller must be created first.
+            </summary>
+            <example>
+            <code source="I:/Visual Studio/Projects/MRI Core Library Examples/Ex Servo/Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.#ctor(System.Int32,MRI_Core_Library.CoreServoController)">
+            <summary>
+            Initialize a servo on a controller port<br></br>
+            An instance of Core_Servo_Controller must be created first.<br></br>
+            This function does not enable the servos. See enableAll()
+            </summary>
+            <param name="channel">Channel 1-6</param>
+            <param name="module">Instance of Core_Servo_Controller</param>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.setPosition(System.Byte)">
+            <summary>
+            This function does not enable the servos. See enableAll()
+            </summary>
+            <param name="position">Target posiiton 0-255</param>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.setPosition(System.Int32)">
+            <summary>
+            This function does not enable the servos. See enableAll()
+            </summary>
+            <param name="position">Target posiiton 0-255</param>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.enableAll">
+            <summary>
+            Enables all servos on the host controller. <br></br>
+            If controller recieves no communication for 10 seconds, all servos will be disabled.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.disableAll">
+            <summary>
+            Disables all servos on controller.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.enableAllWithoutTimeout">
+            <summary>
+            Enables all servos on controller with disregard for 10 second timout.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.getPosition">
+            <summary>
+            Get target position of servo.
+            </summary>
+            <returns>Target Position 0-255</returns>
+        </member>
+        <member name="M:MRI_Core_Library.Servo.isDisabled">
+            <summary>
+            Check if host servo controller ports are disabled
+            </summary>
+            <returns>True is disabled</returns>
+        </member>
+        <member name="T:MRI_Core_Library.ColorSensor">
+            <summary>
+            <a href="http://modernroboticsinc.com/color-sensor" target="_blank">Modern Robotics Part Number 45-2018 - Color Sensor</a>  <br></br>
+            Extends I2CDevice. Adds functions specific to the Modern Robotics Color Sensor<br></br>
+            An instance of Core_Device_Interface must be created first.
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.ColorSensor.mode">
+            <summary>
+            Mode of the color sensor. To learn about modes, go to <a href="http://modernroboticsedu.com/course/view.php?id=8" target="_blank"> Modern Robotics Edu</a>
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.Active">
+            <summary>
+            Uses a flashing LED to filter out ambiant light. Good for reading reflected light like the color of objects.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.Passive">
+            <summary>
+            Does not use the LED. This mode will detect the color of ambiant light
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.Frequency50Hz">
+            <summary>
+            For countries that use a 50Hz electrical grid.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.Frequency60Hz">
+            <summary>
+            For countries that use a 60Hz electrical grid (USA and others)
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.BlackLevelCalibration">
+            <summary>
+            Reference <a href="http://modernroboticsinc.com/Content/Images/uploaded/Sensors/Sensor%20Documentation.pdf" target="_blank">Sensor Documentation</a>.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorSensor.mode.WhiteLevelCalibration">
+            <summary>
+            Reference <a href="http://modernroboticsinc.com/Content/Images/uploaded/Sensors/Sensor%20Documentation.pdf" target="_blank">Sensor Documentation</a>.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.#ctor(MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Color Sensor on a Core Device Interface. Port does not matter. <br></br>
+            This method assumes the color sensor has the factory default address of 0x3C
+            </summary>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Color Sensor on a Core Device Interface with a non-default address. Port does not matter. 
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.setMode(MRI_Core_Library.ColorSensor.mode)">
+            <summary>
+            Sets the mode of the color sensor.
+            See Color_Sensor.mode
+            </summary>
+            <param name="mode">Color_Sensor.mode</param>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.getMode">
+            <summary>
+            Returns mode of sensor.
+            See ColorSensor.mode
+            </summary>
+            <returns>Mode of Color Sensor</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.colorNumber">
+            <summary>
+            Most simplistic way to use the color sensor. <br></br>
+            The color number register returns a single number representing the color estimate. <br></br>
+            The number corresponds to the diagram on the <a href="http://modernroboticsinc.com/color-sensor" target="_blank">Color Sensor Product Page</a>.
+            </summary>
+            <returns>Color from 0-16 representing a section of the color spectrum.</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.red">
+            <summary>
+            The color values are returned separately as red, green, blue and white. <br></br>
+            The color value is a measure of the current detection levels for each primary color.
+            </summary>
+            <returns>Red Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.green">
+            <summary>
+            The color values are returned separately as red, green, blue and white. <br></br>
+            The color value is a measure of the current detection levels for each primary color.
+            </summary>
+            <returns>Green Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.blue">
+            <summary>
+            The color values are returned separately as red, green, blue and white. <br></br>
+            The color value is a measure of the current detection levels for each primary color.
+            </summary>
+            <returns>Blue Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.white">
+            <summary>
+            The color values are returned separately as red, green, blue and white. <br></br>
+            The color value is a measure of the current detection levels for each primary color.
+            </summary>
+            <returns>White Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.colorIndexNumber">
+            <summary>
+            The color index number is a single 6 bit number. <br></br>
+            Bits (5:4) encode the red signal level, bits(3:2) encode the green signal level and bits(1:0) encode the blue signal levels.
+            </summary>
+            <returns>Color Index Number</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.redIndex">
+            <summary>
+            The color index will return the current analog signal levels for red, green and blue separately. <br></br>
+            The color with the greatest intensity is set as 0xFF while the other two colors indexes are set as a proportion of 0xFF.
+            </summary>
+            <returns>Red Index</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.greenIndex">
+            <summary>
+            The color index will return the current analog signal levels for red, green and blue separately. <br></br>
+            The color with the greatest intensity is set as 0xFF while the other two colors indexes are set as a proportion of 0xFF.
+            </summary>
+            <returns>Green Index</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.blueIndex">
+            <summary>
+            The color index will return the current analog signal levels for red, green and blue separately. <br></br>
+            The color with the greatest intensity is set as 0xFF while the other two colors indexes are set as a proportion of 0xFF.
+            </summary>
+            <returns>Blue Index</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.whiteIndex">
+            <summary>
+            The color index will return the current analog signal levels for red, green and blue separately. <br></br>
+            The color with the greatest intensity is set as 0xFF while the other two colors indexes are set as a proportion of 0xFF.
+            </summary>
+            <returns>White Index</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.redReading">
+            <summary>
+            The color reading registers return the current analog signal levels as 16 bits values for red, green, blue and white.
+            </summary>
+            <returns>Red Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.greenReading">
+            <summary>
+            The color reading registers return the current analog signal levels as 16 bits values for red, green, blue and white.
+            </summary>
+            <returns>Green Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.blueReading">
+            <summary>
+            The color reading registers return the current analog signal levels as 16 bits values for red, green, blue and white.
+            </summary>
+            <returns>Blue Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.whiteReading">
+            <summary>
+            The color reading registers return the current analog signal levels as 16 bits values for red, green, blue and white.
+            </summary>
+            <returns>White Reading</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.normalizedRedReading">
+            <summary>
+            The color normalized readings will return the current levels for the color components and white channel that are adjusted for gain and offset.
+            </summary>
+            <returns>Normalized Red</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.normalizedGreenReading">
+            <summary>
+            The color normalized readings will return the current levels for the color components and white channel that are adjusted for gain and offset.
+            </summary>
+            <returns>Normalized Green</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.normalizedBlueReading">
+            <summary>
+            The color normalized readings will return the current levels for the color components and white channel that are adjusted for gain and offset.
+            </summary>
+            <returns>Normalized Blue</returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorSensor.normalizedWhiteReading">
+            <summary>
+            The color normalized readings will return the current levels for the color components and white channel that are adjusted for gain and offset.
+            </summary>
+            <returns>Normalized White</returns>
+        </member>
+        <member name="T:MRI_Core_Library.ColorBeacon">
+            <summary>
+            <a href="http://modernroboticsinc.com/color-beacon" target="_blank">Modern Robotics Part Number 45-2019 - Color Beacon</a>  <br></br>
+            Extends I2CDevice. Adds functions specific to the Modern Robotics Color Beacon<br></br>
+            An instance of Core_Device_Interface must be created first.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Color Beacon\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.#ctor(MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Color Beacon on a Core Device Interface. Port does not matter. <br></br>
+            This method assumes the color beacon has the factory default address of 0x4C
+            </summary>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Color Sensor on a Core Device Interface with a non-default address. Port does not matter. 
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.setColor(MRI_Core_Library.ColorBeacon.colorNumber)">
+            <summary>
+            Set to a standard color
+            </summary>
+            <param name="color"></param>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.setColor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set to a custom color
+            </summary>
+            <param name="red">Red intensity 0-255</param>
+            <param name="green">Green intensity 0-255</param>
+            <param name="blue">Blue intensity 0-255</param>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.getColor">
+            <summary>
+            Get current color
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.ColorBeacon.getRGB">
+            <summary>
+            Get current RGB values<br></br>
+            These values will only be meaningful if the color number is "Custom"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MRI_Core_Library.ColorBeacon.colorNumber">
+            <summary>
+            A list of default colors
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.off">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.red">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.green">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.yellow">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.blue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.purple">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.teal">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.white">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.ColorBeacon.colorNumber.custom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.RangeSensor">
+            <summary>
+            <a href="http://modernroboticsinc.com/range-sensor" target="_blank">Modern Robotics Part Number 45-2008 - Range Sensor</a>  <br></br>
+            Extends I2CDevice. Adds functions specific to the Modern Robotics Range Sensor<br></br>
+            An instance of Core_Device_Interface must be created first.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Range Sensor\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.RangeSensor.#ctor(MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Range Sensor on a Core Device Interface. Port does not matter. <br></br>
+            This method assumes the range sensor has the factory default address of 0x28
+            </summary>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.RangeSensor.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Range Sensor on a Core Device Interface with a non-default address. Port does not matter. 
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.RangeSensor.opticalReading">
+            <summary>
+            The optical element works by emitting infrared light from on LED and receiving infrared light to the other LED. 
+            The optical value can detect objects within 15cm. 
+            As an object approaches the optical element the returned value will increase at an exponential rate.
+            </summary>
+            <returns>Value from 0-255. 255 being saturated</returns>
+        </member>
+        <member name="M:MRI_Core_Library.RangeSensor.ultrasonicReading">
+            <summary>
+            The ultrasonic element works by one of the transducers emitting a sound wave and the other receiving the sound wave. 
+            This reading is accurate between 5cm and approximately 255cm. 
+            Since the value returned is in units of centimeters, the return is linear.
+            </summary>
+            <returns>Value from 0-255 in cm</returns>
+        </member>
+        <member name="M:MRI_Core_Library.RangeSensor.ultrasonicAndOptical">
+            <summary>
+            See ultrasonicReading() and opticalReading().
+            </summary>
+            <returns>byte[] {ultrasonic, optical}</returns>
+        </member>
+        <member name="T:MRI_Core_Library.IntegratingGyro">
+            <summary>
+            <a href="http://modernroboticsinc.com/integrating-3-axis-gyro" target="_blank">Modern Robotics Part Number 45-2005 - Integrating Gyro</a>  <br></br>
+            Extends I2CDevice. Adds functions specific to the Modern Robotics Integrating Gyro<br></br>
+            An instance of Core_Device_Interface must be created first.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Integrating Gyro\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.#ctor(MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes an Integrating Gyro on a Core Device Interface. Port does not matter. <br></br>
+            This method assumes the gyro has the factory default address of 0x20
+            </summary>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes an Integrating Gyro on a Core Device Interface with a non-default address. Port does not matter. 
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.IntegratingGyro.command">
+            <summary>
+            Commands for the gyro.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.IntegratingGyro.command.normalMeasurementMode">
+            <summary>
+            Normal Oporation
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.IntegratingGyro.command.nullGyroOffsetAndResetZintegrator">
+            <summary>
+            The sensor must be kept still for 3 seconds while the sensor calibrates. 
+            Once the gyro offset has been measured, the Z axis integrator will be reset to 0 and the command location will reset to normalMEasurementMode. 
+            The Z axis offset field is used to record the offset value and will be automatically recorded in EEPROM.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.IntegratingGyro.command.resetZaxisIntegrator">
+            <summary>
+            The tree fields X, Y and Z are the unprocessed values being obtained from the sensorelement. These values are updated at approximately 760Hz.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.IntegratingGyro.command.WriteRRPROMdata">
+            <summary>
+            Used to save offset and coefficient
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.setCommand(MRI_Core_Library.IntegratingGyro.command)">
+            <summary>
+            See command enum
+            </summary>
+            <param name="com">Command to send</param>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.heading">
+            <summary>
+            The heading data is obtained by dividing the integrated gyro Z value by 360 yielding a remainder which is then forced to lie between 0° - 359° as the current heading value. 
+            If rotated in a CW direction, the value increases from 0°. If rotated in a CCW direction, the value decreases from 359°.
+            </summary>
+            <returns>0-359</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.integratedZ">
+            <summary>
+            The integrated gyro Z value returns the current value obtained by integrating the Z axis rate value, adjusted by the Z axis offset continuously.
+            This integrated value can be reset to 0 by issuing command resetZaxisIntegrator. 
+            This value can also be used as a signed heading value where CW is in the positive direction and CCW is in the negative direction.
+            </summary>
+            <returns>Degrees turned +-</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.rawX">
+            <summary>
+            Rate of rotation
+            </summary>
+            <returns>Rate of rotation</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.rawY">
+            <summary>
+            Rate of rotation
+            </summary>
+            <returns>Rate of rotation</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.rawZ">
+            <summary>
+            Rate of rotation
+            </summary>
+            <returns>Rate of rotation</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.getZAxisOffset">
+            <summary>
+            See setZAxisOffset();
+            </summary>
+            <returns>offset</returns>
+        </member>
+        <member name="M:MRI_Core_Library.IntegratingGyro.setZAxisOffset(System.Int32)">
+            <summary>
+            Offset of z integrator
+            </summary>
+            <param name="offset">offset</param>
+        </member>
+        <member name="T:MRI_Core_Library.CompassSensor">
+            <summary>
+            <a href="http://modernroboticsinc.com/compass" target="_blank">Modern Robotics Part Number 45-2003 - Compass &amp; Acceleration Sensor</a>  <br></br>
+            Extends I2CDevice. Adds functions specific to the Modern Robotics Compass &amp; Acceleration Sensor<br></br>
+            An instance of Core_Device_Interface must be created first.<br></br>
+            In most cases, you will only need to use heading()
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.#ctor(MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Compass &amp; Acceleration Sensor on a Core Device Interface. Port does not matter. <br></br>
+            This method assumes the Compass &amp; Acceleration Sensor has the factory default address of 0x24
+            </summary>
+            <param name="module">Instance of Core_Device_Interface</param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.#ctor(System.Byte,MRI_Core_Library.CoreDeviceInterface)">
+            <summary>
+            Initializes a Compass &amp; Acceleration Sensor on a Core Device Interface with a non-default address. Port does not matter. 
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.heading">
+            <summary>
+            Direction from 0-359 degrees.
+            </summary>
+            <returns>heading in degrees</returns>
+        </member>
+        <member name="T:MRI_Core_Library.CompassSensor.compassCommand">
+            <summary>
+            See <a href="http://modernroboticsinc.com/Content/Images/uploaded/Sensors/Sensor%20Documentation.pdf" target="_blank">Sensor Documentation</a> for usage.
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerXvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerYvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerZvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerXvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerYvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerZvalue">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerXoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerXoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerYoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerYoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerZoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerZoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerXoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerXoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerYoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerYoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerZoffset">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerZoffset(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerTiltCoefficient">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.magnetometerTiltCoefficient(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerScaleCoefficient">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.accelerometerScaleCoefficient(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.MagnetometerXscaleCoefficient">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.MagnetometerXscaleCoefficient(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.MagnetometerYscaleCoefficient">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CompassSensor.MagnetometerYscaleCoefficient(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:MRI_Core_Library.CoreControlModule">
+            <summary>
+            A general Core Control Module and related static functions. <br></br>
+            <a href="http://modernroboticsinc.com/core-control-modules" target="_blank">Go to Core Control Modules Page</a> 
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.CoreControlModule.moduleType">
+            <summary>
+            Register of Core Control Modules and their ID number. Used in getModuleType()
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Core_Motor_Controller">
+            <summary>
+            45-2203
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Core_Servo_Controller">
+            <summary>
+            45-2204
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Core_Device_Interface">
+            <summary>
+            45-2201
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Core_Legacy_Module">
+            <summary>
+            45-2202
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Unknown_Core_Control_Module">
+            <summary>
+            Default. May mean the motor or servo controller is not powered on.
+            </summary>
+        </member>
+        <member name="F:MRI_Core_Library.CoreControlModule.moduleType.Not_A_Core_Control_Module">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.#ctor(System.String)">
+            <summary>
+            Core Control Module Constructor<br></br>
+            If you do not know the COM port or Serial Number, use Core_Control_Module.printConnectedDevices() or <a href="http://modernroboticsinc.com/coredevicediscovery" target="_blank">Core Device Discovery</a>. <br></br>
+            </summary>
+            <param name="identifier">Serial Number or COM Port</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.#ctor(MRI_Core_Library.CoreControlModule.moduleType)">
+            <summary>
+            
+            </summary>
+            <param name="targetType"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.getComPort">
+            <summary>
+            Gets the COM port
+            </summary>
+            <returns>COM#</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.getSerialNumber">
+            <summary>
+            Returns the serial number
+            </summary>
+            <returns>Serial Number</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.getFirmwareVersion">
+            <summary>
+            Returns the firmware version
+            </summary>
+            <returns>Firmware Version</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.information">
+            <summary>
+            Returns a string of information about this controller.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.getModuleType">
+            <summary>
+            Get the type of this module.
+            </summary>
+            <returns>type</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.findConnectedDevices">
+            <summary>
+            Scan serial ports and get the device type and version for Core Control Modules. Servo and Motor controllers must be powered through their power input. Any modules already in use with open connections will appear as non-Modern Robotics devices.
+            </summary>
+            <returns>COM port, Serial Number, Device Type, Version number of the device if known.</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.printConnectedDevices">
+            <summary>
+            This method prints to the Console (1) The number of serial ports found (2) The COM port for each (3) The Serial Number for each device (4) The type of Core Control Module or "unknown" (5) The firmware version (6) About/Help<br></br> 
+            Any modules already in use with open connections will appear as non-Modern Robotics devices.
+            </summary>
+            <example>
+            <code source="I:\Visual Studio\Projects\MRI Core Library Examples\Ex Scan For Modules\Program.cs"  language="C#"/>
+            </example>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.setDefaults(System.String)">
+            <summary>
+            Sets Default Values
+            </summary>
+            <param name="serialPort">Serial Port to connect to</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.port_DataReceived(System.Object,System.IO.Ports.SerialDataReceivedEventArgs)">
+            <summary>
+            Listener for received serial data
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.openConnection">
+            <summary>
+            Opens serial connection
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.closeConnection">
+            <summary>
+            Closes serial connection
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.setLatencyTimer(System.Int32)">
+            <summary>
+            Optimizes serial communication by setting the latency timer of the FTDI chip.<br></br>
+            Default is usually 16. 1 gives the fastest results.<br></br>
+            This function is called automatically to set the Latency Timer to 1 when the connection is opened. This method will only work if the program has administrator privileges.
+            </summary>
+            <param name="timer">milliseconds. 1 is fastest. 16 is default</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.getLatencyTimer">
+            <summary>
+            Returns the latency timer of the FTDI chip.<br></br>
+            Default is usually 16. 1 gives the fastest results.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.read(System.Byte,System.Byte)">
+            <summary>
+            Transmits a read command to the Core Control Module
+            </summary>
+            <param name="memoryLocation">Memory map location to begin read from</param>
+            <param name="lengthToRead">Number of bytes to read</param>
+            <returns>Requested registers</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.write(System.Byte,System.Byte[])">
+            <summary>
+            Transmits a write command to the Core Control Module
+            </summary>
+            <param name="memoryLocation">Memory map location to begin write from</param>
+            <param name="payload">Payload to write</param>
+            <returns>0x00 for success</returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.sterilizeData(System.Byte[],MRI_Core_Library.CoreControlModule.CommandType)">
+            <summary>
+            Sterilized byte array removing MRI confidential info
+            </summary>
+            <param name="responseArray">Array to sterilize</param>
+            <param name="selectedCommand">Type of command to reply to</param>
+            <returns></returns>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.sendCommand(System.Byte[])">
+            <summary>
+            Writes command array to serial port
+            </summary>
+            <param name="commandArray">Byte Array to transmit</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.outputMessage(System.String)">
+            <summary>
+            Outputs Messages to the console
+            </summary>
+            <param name="message">Message to output</param>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.prepareForRespone(MRI_Core_Library.CoreControlModule.CommandType,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="typeOfCommand"></param>
+            <param name="length"></param>
+        </member>
+        <member name="T:MRI_Core_Library.CoreControlModule.SerialStatus">
+            <summary>
+            Enum describing different potential serial statuses
+            </summary>
+        </member>
+        <member name="T:MRI_Core_Library.CoreControlModule.CommandType">
+            <summary>
+            Enum describing the different command types
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.ByteArrayToHexString(System.Byte[])">
+            <summary>
+            Converts byte array to string hex array
+            </summary>
+            <param name="byteArray">Byte Array to convert</param>
+            <returns>Hex String</returns>
+        </member>
+        <member name="T:MRI_Core_Library.CoreControlModule.CoreCommunicationProtocol">
+            <summary>
+            Class Containing the core communication protocol (Proprietary)
+            </summary>
+        </member>
+        <member name="M:MRI_Core_Library.CoreControlModule.CoreCommunicationProtocol.buildCommand(System.Boolean,System.Byte,System.Byte[])">
+            <summary>
+            Builds commands for the core device interface
+            </summary>
+            <param name="read">Specifies if read or write</param>
+            <param name="memoryMapAddress">Memory map address to perform function</param>
+            <param name="payload">Payload to send</param>
+            <returns></returns>
+        </member>
+        <member name="T:MRI_Core_Library.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MRI_Core_Library.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MRI_Core_Library.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

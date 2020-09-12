@@ -1,82 +1,105 @@
-﻿namespace Autonet
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+namespace Autonet
 {
     class Program
     {
         static CRobot Robot = new CRobot();
         static CRecog Recog = new CRecog();
-        static CAutonomous Autonomous = new Point2();
+        static CGraph Graph = new CGraph();
+        static PathFinder PathFinder = new PathFinder();
 
         static void Main(string[] args)
         {
-            
-            
+
+            CCard TargetCard = new CCard();
+
+            Robot.Init("COM22", "COM23");
             Recog.Init(9090);
-            /*
-            Robot.Init("COM30");
-            Robot.PinMode(PinDefs.MotorLR, Arduino.OUTPUT);
-            Robot.PinMode(PinDefs.MotorLF, Arduino.OUTPUT);
-            Robot.PinMode(PinDefs.MotorRR, Arduino.OUTPUT);
-            Robot.PinMode(PinDefs.MotorRF, Arduino.OUTPUT);
-            Robot.PinMode(PinDefs.MotorGU, Arduino.OUTPUT);
-            Robot.PinMode(PinDefs.MotorGD, Arduino.OUTPUT);
-            */
-            Autonomous.Run(Robot, Recog);
 
+            Thread.Sleep(3000);
 
+            TargetCard.Parse(Recog.RunRecog());
 
-            /*           
-                       Robot.PinMode(51, 0);
-                       Robot.PinMode(52, 0);
-                       Robot.PinMode(53, 0);
-                       String r = Recog(9090);
-                       switch (r[1])
-                       {
-                           case 'r':
-                               Robot.DigitalWrite(51, 1);
-                               Robot.DigitalWrite(52, 0);
-                               Robot.DigitalWrite(53, 0);
-                               Console.WriteLine("Red");
-                               break;
-                           case 'b':
-                               Robot.DigitalWrite(51, 0);
-                               Robot.DigitalWrite(52, 1);
-                               Robot.DigitalWrite(53, 0);
-                               Console.WriteLine("Blue");
-                               break;
-                           case 'g':
-                               Robot.DigitalWrite(51, 0);
-                               Robot.DigitalWrite(52, 0);
-                               Robot.DigitalWrite(53, 1);
-                               Console.WriteLine("Green");
-                               break;
-                           case 'y':
-                               Robot.DigitalWrite(51, 1);
-                               Robot.DigitalWrite(52, 0);
-                               Robot.DigitalWrite(53, 1);
-                               Console.WriteLine("Yellow");
-                               break;
+            while (TargetCard.CID == -1)
+            {
+                TargetCard.Parse(Recog.RunRecog());
+            }
 
-                           case 'o':
-                               Robot.DigitalWrite(51, 1);
-                               Robot.DigitalWrite(52, 0);
-                               Robot.DigitalWrite(53, 0);
-                               Console.WriteLine("Orange");
-                               break;
-                           default:
-                               Robot.DigitalWrite(51, 0);
-                               Robot.DigitalWrite(52, 0);
-                               Robot.DigitalWrite(53, 0);
-                               Console.WriteLine("Nothing Detected");
-                               break;
+            PathFinder.LoadGraph(Graph);
+            List<CManuever> ManueverMap = PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.StartPoint, ConfigDefs.GrabPoint));
+            ManueverMap.Add(new GrabManuever());
 
-                       }
-                       //  Console.WriteLine(Robot.Init());
-                       // Console.WriteLine(Recog(9090));
-                       Console.WriteLine(r[0]);
-                       Console.ReadLine();
-                       */
+            switch (TargetCard.CID)
+            {
+                case 0:
+                    if (new List<int>{ 1, 3, 5, 7, 9 }.Contains(TargetCard.Num))
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Red1Start)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Red1Start, (int)CGraph.Points.Red1End)));
+                    } else
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Red2)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Red2, (int)CGraph.Points.Green2)));
+                    }
+                    break;
+                case 1:
+                    if (new List<int> { 1, 3, 5, 7, 9 }.Contains(TargetCard.Num))
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Blue1)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Blue1, (int)CGraph.Points.Red2)));
+                    }
+                    else
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Blue2Start)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Blue2Start, (int)CGraph.Points.Blue2End)));
+                    }
+                    break;
+                case 2:
+                    if (new List<int> { 1, 3, 5, 7, 9 }.Contains(TargetCard.Num))
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Green1Start)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Green1Start, (int)CGraph.Points.Green1End)));
+                    }
+                    else
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Green2)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Green2, (int)CGraph.Points.Orange2)));
+                    }
+                    break;
+                case 3:
+                    if (new List<int> { 1, 3, 5, 7, 9 }.Contains(TargetCard.Num))
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Yellow1)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Yellow1, (int)CGraph.Points.TrafficSouth)));
+                    }
+                    else
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Yellow2Start)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Yellow2Start, (int)CGraph.Points.Yellow2End)));
+                    }
+                    break;
+                case 4:
+                    if (new List<int> { 1, 3, 5, 7, 9 }.Contains(TargetCard.Num))
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Orange1Start)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Orange1Start, (int)CGraph.Points.Orange1End)));
+                    }
+                    else
+                    {
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind(ConfigDefs.AfterGrabPoint, (int)CGraph.Points.Orange2)));
+                        ManueverMap.AddRange(PathFinder.GetManueverMap(PathFinder.Pathfind((int)CGraph.Points.Orange2, (int)CGraph.Points.Blue1)));
+                    }
+                    break;
+            }
+
+            for (int i = 0; i < ManueverMap.Count; i++)
+                ManueverMap[i].Run(Robot, Recog, TargetCard);
+
+            Console.ReadLine();
         }
 
     }
-    
+
 }

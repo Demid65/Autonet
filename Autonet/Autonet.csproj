@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MRI Core Library">
+      <HintPath>..\MRI Core Lib\MRI Core Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -44,15 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arduino.cs" />
-    <Compile Include="CAutonomous.cs" />
+    <Compile Include="CArduino.cs" />
     <Compile Include="CCard.cs" />
+    <Compile Include="CManuever.cs" />
     <Compile Include="CRecog.cs" />
     <Compile Include="CRobot.cs" />
-    <Compile Include="Demo.cs" />
-    <Compile Include="PinDefs.cs" />
-    <Compile Include="Point1.cs" />
-    <Compile Include="Point2.cs" />
+    <Compile Include="PathFinder.cs" />
+    <Compile Include="CGraph.cs" />
+    <Compile Include="Defs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
