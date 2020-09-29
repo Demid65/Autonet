@@ -10,9 +10,12 @@ namespace Autonet
         public CoreLegacyModule LegoController;
         public void Init(string ArduinoPort, string LegoPort)
         {
-            Init(ArduinoPort);
+           
             LegoController = new CoreLegacyModule(LegoPort);
+            Init(ArduinoPort);
         }
+
+
 
 
     }

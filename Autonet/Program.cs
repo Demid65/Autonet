@@ -13,9 +13,16 @@ namespace Autonet
         static void Main(string[] args)
         {
 
+
+
+            Robot.Init(ConfigDefs.ArduinoPort, ConfigDefs.LegacyPort);
+
+
+            while (true) ;
+
             CCard TargetCard = new CCard();
 
-            Robot.Init("COM22", "COM23");
+            Robot.Init(ConfigDefs.ArduinoPort,ConfigDefs.LegacyPort);
             Recog.Init(9090);
 
             Thread.Sleep(3000);
