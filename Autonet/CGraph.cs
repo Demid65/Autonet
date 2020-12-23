@@ -57,13 +57,39 @@ namespace Autonet
 
 
             Connections[(int)Points.Start1, (int)Points.GrabStart].Cost = 1;
-            Connections[(int)Points.Start1, (int)Points.GrabStart].Manuever = new Point1Rollout();
+            Connections[(int)Points.Start1, (int)Points.GrabStart].Manuever = new Point2Rollout();
 
             Connections[(int)Points.GrabStart, (int)Points.GrabEnd].Cost = 1;
             Connections[(int)Points.GrabStart, (int)Points.GrabEnd].Manuever = new GrabSkip();
 
-            Connections[(int)Points.Start1, (int)Points.GrabStart].Cost = 1;
-            Connections[(int)Points.Start1, (int)Points.GrabStart].Manuever = new DebugManuever();
+            Connections[(int)Points.GrabEnd, (int)Points.Green1Start].Cost = 1;
+            Connections[(int)Points.GrabEnd, (int)Points.Green1Start].Manuever = new NorthPass();
+
+            Connections[(int)Points.Green1Start, (int)Points.Green1End].Cost = 1;
+            Connections[(int)Points.Green1Start, (int)Points.Green1End].Manuever = new GreenStreet1();
+
+            Connections[(int)Points.Green1End, (int)Points.ParkParallel].Cost = 1;
+            Connections[(int)Points.Green1End, (int)Points.ParkParallel].Manuever = new ParkParallel1();
+/*
+            Connections[(int)Points.ParkParallel, (int)Points.Red1Transfer].Cost = 1;
+            Connections[(int)Points.ParkParallel, (int)Points.Red1Transfer].Manuever = new yahz();
+
+            Connections[(int)Points.Red1Transfer, (int)Points.Red1End].Cost = 1;
+            Connections[(int)Points.Red1Transfer, (int)Points.Red1End].Manuever = new yahz();
+
+            Connections[(int)Points.Red1End, (int)Points.Blue2Start].Cost = 1;
+            Connections[(int)Points.Red1End, (int)Points.Blue2Start].Manuever = new yahz();
+
+            Connections[(int)Points.Blue2Start, (int)Points.Blue2End].Cost = 1;
+            Connections[(int)Points.Blue2Start, (int)Points.Blue2End].Manuever = new yahz();
+
+            Connections[(int)Points.Blue2End, (int)Points.GrabStart].Cost = 1;
+            Connections[(int)Points.Blue2End, (int)Points.GrabStart].Manuever = new yahz();
+
+            Connections[(int)Points.Blue2End, (int)Points.GrabStart].Cost = 1;
+            Connections[(int)Points.Blue2End, (int)Points.GrabStart].Manuever = new yahz();
+       */     
+
         }
 
 

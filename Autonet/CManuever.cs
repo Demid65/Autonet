@@ -11,7 +11,7 @@ namespace Autonet
         public abstract void Run(CRobot Robot, CRecog Recog, CCard TargetCard);
     }
 
-    class Point1Rollout : CManuever
+    class Point2Rollout : CManuever
     {
         public override void Run(CRobot Robot, CRecog Recog, CCard TargetCard)
         {
@@ -43,5 +43,27 @@ namespace Autonet
         }
     }
 
+    class NorthPass : CManuever
+    {
+        public override void Run(CRobot Robot, CRecog Recog, CCard TargetCard)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
+    class GreenStreet1 : CManuever
+    {
+        public override void Run(CRobot Robot, CRecog Recog, CCard TargetCard)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class ParkParallel1 : CManuever
+    {
+        public override void Run(CRobot Robot, CRecog Recog, CCard TargetCard)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

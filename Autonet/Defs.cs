@@ -25,7 +25,7 @@
     class ConfigDefs
     {
 
-        public const string ArduinoPort = "COM22";
+        public const string ArduinoPort = "COM30";
         public const string LegacyPort = "COM23";
 
         public const int StartPoint = (int) CGraph.Points.Start1;
