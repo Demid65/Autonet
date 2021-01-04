@@ -52,6 +52,7 @@
     <Compile Include="CManuever.cs" />
     <Compile Include="CRecog.cs" />
     <Compile Include="CRobot.cs" />
+    <Compile Include="CSyncThread.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="CGraph.cs" />
     <Compile Include="Defs.cs" />
